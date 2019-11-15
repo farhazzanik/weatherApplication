@@ -1,0 +1,25 @@
+.rowDiv{
+	background-color: #DAFDBA
+}
+.weatherIcon{
+	height: 60px;
+	width: 60px;
+	margin-top : 20px;
+
+}
+
+.second-div {
+	 background-color:#7CFD7C; 
+}
+.cardBody{
+	padding-left: 10px;
+}
+
+.frist-div{
+	background-color: #DAFDBA
+}
+
+.sunIcon{
+	height: 100px;
+	width: 100px;
+}
