@@ -7,6 +7,8 @@ const temp = document.getElementById('temp')
 const pressure = document.getElementById('pressure')
 const humidity = document.getElementById('humidity')
 const cityInput = document.getElementById('cityInput')
+const history_container = document.getElementById('history_container')
+const card = document.getElementById('card')
 
 
 const API_keys = '27e5c8a53aacc1aac2424df2b262f9a0'
@@ -21,16 +23,38 @@ window.onload = function() {
         getWeatherData()
     })
 
+    axios.get('/api/history')
+        .then(({ data }) => {
+            if (data.length > 0) {
+                updateHistory(data)
+            } else {
+                history_container.innerHTML = "There is no history"
+            }
+
+        }).catch(e => {
+            console.log(e)
+            //alert('Error Occured')
+        })
+
     cityInput.addEventListener('keypress', function(e) {
-    	if(e.key === 'Enter'){
-    		if(e.target.value){
-    			getWeatherData(e.target.value)
-    		}
-    	}
+        if (e.key === 'Enter') {
+            if (e.target.value) {
+                getWeatherData(e.target.value, null, weather => {
+                    e.target.value = ''
+                    axios.post('/api/history', weather)
+                        .then(({ data }) => updateHistory(data))
+                        .catch(e => {
+                            console.loe(e)
+                            alert('Error Occured ..!!')
+                        })
+                })
+
+            }
+        }
     })
 }
 
-let getWeatherData = function(city = DEFUALT_CITY, coords) {
+let getWeatherData = function(city = DEFUALT_CITY, coords, cb) {
     let url = BASE_URL
 
     city === null ?
@@ -53,6 +77,7 @@ let getWeatherData = function(city = DEFUALT_CITY, coords) {
             }
 
             setWeather(weather)
+            if (cb) cb(weather)
         }).catch(e => {
             //console.log(e)
             alert('City Not found !!..')
@@ -72,4 +97,24 @@ let setWeather = function(weather) {
     humidity.innerHTML = weather.humidity
 
 
+}
+
+let updateHistory = (history) => {
+    history_container.innerHTML = ''
+
+    history = history.reverse()
+    history.forEach(h => {
+        let tempHist = card.cloneNode(true)
+        tempHist.id = ''
+        tempHist.getElementsByClassName('weatherIcon')[0].src = `${ICON_URL}${h.icon}.png`
+        tempHist.getElementsByClassName('city')[0].innerHTML = h.name
+        tempHist.getElementsByClassName('country')[0].innerHTML = h.country
+        tempHist.getElementsByClassName('main')[0].innerHTML = h.main
+        tempHist.getElementsByClassName('description')[0].innerHTML = h.description
+        tempHist.getElementsByClassName('temp')[0].innerHTML = h.temp
+        tempHist.getElementsByClassName('pressure')[0].innerHTML = h.pressure
+        tempHist.getElementsByClassName('humidity')[0].innerHTML = h.humidity
+
+        history_container.appendChild(tempHist)
+    })
 }

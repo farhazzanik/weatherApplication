@@ -38,19 +38,22 @@
                         <label><b>Recently Search Result</b></label>
                     </div>
                 </div>
-                <div class="card card-body my-2">
+
+                <div id="history_container"></div>
+
+                <div class="card card-body my-2" id="card">
                     <div class="d-flex">
                         <div class="">
-                            <img src="./image/weather.png" class="card-img weatherIcon" alt="...">
+                            <img  src="./image/weather.png" class="card-img weatherIcon" alt="...">
                         </div>
                         <div class="text-left">
                             <div class="cardBody">
                                 <p>
-                                    <strong><span>petira,</span></strong>
-                                    <strong><span>Tallinn</span></strong>
+                                    <strong><span class="city">petira,</span></strong>
+                                    <strong><span class="country">Tallinn</span></strong>
                                     <br />
-                                    <strong><span>Haze : </span></strong><br />
-                                    <span>TEMP : <strong>299.15</strong><span> Pressure : <strong>299.15</strong><span> Hemudity : <strong>299.15</strong></span>
+                                    <strong><span class="main">  </span>(<span class="description"></span>)</strong><br />
+                                    <span>TEMP : <strong class="temp">299.15</strong><span> Pressure : <strong class="pressure">299.15</strong><span> Hemudity : <strong class="humidity">299.15</strong></span>
                                 </p>
                             </div>
                         </div>
